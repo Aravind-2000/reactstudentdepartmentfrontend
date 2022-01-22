@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from "react";
+import {toast} from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import StudentsApi from "../Service/StudentServiceApi";
 import {
     Button,
@@ -151,7 +153,7 @@ const ListAllStudents = () => {
         course.map((i) =>(
             StudentsApi.addStudentToCourse(studid,i).then((respo) =>{
                 console.log(respo.data);
-                getAllStudents();
+                toast.success('Course(s) Added', { position: toast.POSITION.TOP_RIGHT, autoClose: false })
             })
                 .catch((error) =>{
                     console.log(error);
@@ -164,6 +166,7 @@ const ListAllStudents = () => {
         StudentServiceApi.removeStudentFromCourse(coursebyid, enrolledstudid).then((respo) =>
         {
             console.log(respo.data);
+            toast.error('Course Removed', { position: toast.POSITION.TOP_RIGHT, autoClose: false })
         })
             .catch((error) =>{
                 console.log(error);
@@ -213,7 +216,6 @@ const ListAllStudents = () => {
                 <div className="card-body">
                     <p> </p>
                     <div className="container container-md container-sm">
-                        {/* <button className="btn" onClick={() => addcourse(6,"1,2,3")}> ADd course</button> */}
                         <OverlayTrigger
                             placement="top"
                             delay={{ show: 100, hide: 0 }}
@@ -225,10 +227,10 @@ const ListAllStudents = () => {
                                 data-toggle="modal"
                                 style={{color:"blueviolet"}}
                             >
-                                <i className="uil uil-user-plus"></i>
+                                <i className="uil uil-user-plus"/>
                             </button>
                         </OverlayTrigger>
-                        <p></p>
+                        <p/>
                         <table className="table table-borderless">
                             <thead className="tablehead">
                             <tr>
@@ -256,7 +258,7 @@ const ListAllStudents = () => {
                                                 onClick={() => showcourse(students)}
                                                 style={{color:"blueviolet"}}
                                             >
-                                                <i className="uil uil-book-open"></i>
+                                                <i className="uil uil-book-open"/>
                                             </button>
                                         </OverlayTrigger>
 
@@ -270,7 +272,7 @@ const ListAllStudents = () => {
                                                 onClick={() => handleUpdateShow(students)}
                                                 style={{color:"blueviolet" , marginLeft:25}}
                                             >
-                                                <i className="uil uil-eye"></i>
+                                                <i className="uil uil-eye"/>
                                             </button>
                                         </OverlayTrigger>
 
@@ -285,7 +287,7 @@ const ListAllStudents = () => {
                                                 onClick={() => deletStudent(students.studentId)}
                                                 style={{color:"blueviolet" , marginLeft:25}}
                                             >
-                                                <i className="uil uil-trash"></i>
+                                                <i className="uil uil-trash"/>
                                             </button>
                                         </OverlayTrigger>
                                     </td>
@@ -334,7 +336,6 @@ const ListAllStudents = () => {
                                                     if(e.target.checked){
                                                         courseid.push(e.target.value);
                                                         setcourseid(courseid);
-                                                        console.log(courseid);
                                                     }
                                                 }}
                                             />
@@ -413,18 +414,6 @@ const ListAllStudents = () => {
                                             required
                                         />{" "}
                                     </FloatingLabel>
-
-                                    {/* <FloatingLabel className="mb-3" label="Department ID">
-                    <Form.Control
-                      type="text"
-                      name="departmentId"
-                      value={record.departmentId}
-                      id="departmentId"
-                      onChange={(e) => editChange(e)}
-                      readOnly
-                      required
-                    />{" "}
-                  </FloatingLabel> */}
 
                                     <FloatingLabel className="mb-3" label="Department ID">
                                         <Form.Control
