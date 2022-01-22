@@ -17,7 +17,7 @@ const AddStudentForm = () => {
     const [country, setcountry] = useState(" ");
 
 
-    const saveStudent = (e) => {
+    const saveStudent = () => {
         const students = { studentId, studentName, departmentId };
         const profile = {id, phoneNumber, gender, addressLine1, addressLine2, city, state, pincode, country};
 
@@ -36,7 +36,6 @@ const AddStudentForm = () => {
             })
             .catch((error) => {console.log(error)
             })
-        e.preventDefault();
     }
 
     const idChange = (e) => {
