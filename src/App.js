@@ -4,6 +4,7 @@ import {BrowserRouter as Router, Route, Routes} from 'react-router-dom'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import "./Components/MainPage.css";
 import ListDepartments from "./Components/ListDepartments";
+import Sidebar from "./Components/Sidebar";
 
 
 

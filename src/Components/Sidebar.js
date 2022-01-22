@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import "react-pro-sidebar/dist/css/styles.css";
 import { Sidebardata } from "./Sidebardata";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
