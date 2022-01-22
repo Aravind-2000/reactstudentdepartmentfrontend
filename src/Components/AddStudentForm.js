@@ -32,6 +32,7 @@ const AddStudentForm = () => {
         StudentsApi.addStudProf(profile)
             .then((res) => {
                 console.log(res.data);
+                window.location = "/"
             })
             .catch((error) => {console.log(error)
             })
