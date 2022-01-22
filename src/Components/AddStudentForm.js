@@ -17,7 +17,7 @@ const AddStudentForm = () => {
     const [country, setcountry] = useState(" ");
 
 
-    const saveStudent = () => {
+    const saveStudent = (e) => {
         const students = { studentId, studentName, departmentId };
         const profile = {id, phoneNumber, gender, addressLine1, addressLine2, city, state, pincode, country};
 
@@ -32,10 +32,10 @@ const AddStudentForm = () => {
         StudentsApi.addStudProf(profile)
             .then((res) => {
                 console.log(res.data);
-                window.location = "/"
             })
             .catch((error) => {console.log(error)
             })
+        e.preventDefault();
     }
 
     const idChange = (e) => {
@@ -55,7 +55,7 @@ const AddStudentForm = () => {
                                 label=" Student Id"
                             >
                                 <Form.Control
-                                    type="text"
+                                    type="number"
                                     name="studentId"
                                     value={studentId}
                                     onChange={(e) => idChange(e)}
@@ -99,7 +99,7 @@ const AddStudentForm = () => {
                     </FloatingLabel>
 
 
-                    <div className="row">
+
                         <div className="col-sm" >
                             <FloatingLabel
                                 controlId="floatingInput"
@@ -125,6 +125,7 @@ const AddStudentForm = () => {
                                 </Form.Control>
                             </FloatingLabel>  </div>
 
+                    <div className="row">
                         <div className="col-sm" >
                             <FloatingLabel
                                 controlId="floatingInput"
@@ -138,8 +139,9 @@ const AddStudentForm = () => {
                                     onChange={(e) => setphoneNumber(e.target.value)}
                                     required
                                 />
-                            </FloatingLabel> </div> </div>
+                            </FloatingLabel> </div>
 
+                    <div className="col-sm" >
                     <FloatingLabel
                         controlId="floatingInput"
                         className="mb-3"
@@ -156,7 +158,7 @@ const AddStudentForm = () => {
                             <option> </option>
                             <option value="MALE" > Male </option>
                             <option value="FEMALE" > Female </option> </Form.Control>
-                    </FloatingLabel>
+                    </FloatingLabel> </div> </div>
 
                     <FloatingLabel
                         controlId="floatingInput"
