@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import { Form, Button, FloatingLabel } from "react-bootstrap";
 import StudentsApi from "../Service/StudentServiceApi";
+import {toast, ToastContainer} from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
 
 const AddStudentForm = () => {
     const [studentId, setStudentId] = useState();
@@ -32,10 +34,11 @@ const AddStudentForm = () => {
         StudentsApi.addStudProf(profile)
             .then((res) => {
                 console.log(res.data);
-                window.location = "/"
+                window.location = "/";
             })
             .catch((error) => {console.log(error)
             })
+        toast("Student Profile Created");
     }
 
     const idChange = (e) => {
@@ -260,9 +263,9 @@ const AddStudentForm = () => {
                     data-toggle="modal"
                     block
                 >
-                    {" "}
-                    Save{" "}
+                    Save
                 </Button>
+                <ToastContainer/>
             </Form>
         </div>
     );

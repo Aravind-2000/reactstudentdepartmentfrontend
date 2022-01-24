@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import {toast} from 'react-toastify';
+import {toast, ToastContainer} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import StudentsApi from "../Service/StudentServiceApi";
 import {
@@ -153,12 +153,12 @@ const ListAllStudents = () => {
         course.map((i) =>(
             StudentsApi.addStudentToCourse(studid,i).then((respo) =>{
                 console.log(respo.data);
-                toast.success('Course(s) Added', { position: toast.POSITION.TOP_RIGHT, autoClose: false })
             })
                 .catch((error) =>{
                     console.log(error);
                 })
         ))
+        toast.success("Course(s) Added");
         courseid.length = 0;
     }
 
@@ -342,6 +342,7 @@ const ListAllStudents = () => {
                                         ))
                                     }
                                     <i className="uil uil-plus" style={{marginTop:20, cursor:"pointer"}}  onClick={() => addstudent(specific.studentId, courseid)} >  </i>
+                                    <ToastContainer/>
                                 </Form.Group>
                             </Form>
                             <br/> <br/>
