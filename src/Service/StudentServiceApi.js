@@ -13,6 +13,9 @@ const GET_COURSES = "http://localhost:8080/courses/getall";
 const GET_COURSE_BY_ID ="http://localhost:8080/courses/get/";
 const REMOVE_STUDENT_FROM_COURSE = "http://localhost:8080/students/";
 const ADD_STUD_TO_COURSE = "http://localhost:8080/students/";
+const GET_ALL_BANK_ACCOUNTS = "http://localhost:8080/bankaccount/getall";
+const GET_BANK_ACC_BY_ID = "http://localhost:8080/bankaccount/getall/";
+const UPDATE_BANK_DETAILS = "http://localhost:8080/bankaccount/update/";
 
 
 class StudentsApi {
@@ -54,6 +57,15 @@ class StudentsApi {
     }
     addStudentToCourse(studentId, courseId){
         return axios.put(ADD_STUD_TO_COURSE + studentId + "/" + courseId);
+    }
+    getAllBankAccounts(){
+        return axios.get(GET_ALL_BANK_ACCOUNTS);
+    }
+    getBankAccountById(bankId){
+        return axios.get(GET_BANK_ACC_BY_ID + bankId);
+    }
+    updateBankAccountById(bankId, bankDetails){
+        return axios.patch(UPDATE_BANK_DETAILS + bankId, bankDetails);
     }
 }
 

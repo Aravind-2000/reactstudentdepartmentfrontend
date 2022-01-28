@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, {useEffect, useState} from "react";
 import { Form, Button, FloatingLabel } from "react-bootstrap";
 import StudentsApi from "../Service/StudentServiceApi";
 import {toast, ToastContainer} from "react-toastify";
@@ -17,11 +17,22 @@ const AddStudentForm = () => {
     const [state, setstate] = useState(" ");
     const [pincode, setpincode] = useState();
     const [country, setcountry] = useState(" ");
+    const [bankId, setBankId] = useState();
+    const [bankDetails, setBankDetails] = useState([]);
 
+    useEffect(() => {
+        StudentsApi.getAllBankAccounts().then((res) => {
+            setBankDetails(res.data);
+            console.log((res.data));
+        })
+            .catch((error) => {
+                console.log(error);
+            })
+    }, []);
 
     const saveStudent = () => {
         const students = { studentId, studentName, departmentId };
-        const profile = {id, phoneNumber, gender, addressLine1, addressLine2, city, state, pincode, country};
+        const profile = {id, phoneNumber, gender, addressLine1, addressLine2, city, state, pincode, country, bankId};
 
         StudentsApi.addStudents(students)
             .then((response) => {
@@ -38,7 +49,7 @@ const AddStudentForm = () => {
             })
             .catch((error) => {console.log(error)
             })
-        toast("Student Profile Created");
+        toast.success("Student Profile Created");
     }
 
     const idChange = (e) => {
@@ -254,6 +265,26 @@ const AddStudentForm = () => {
                                     required
                                 />
                             </FloatingLabel></div> </div>
+                        <FloatingLabel
+                            controlId="floatingInput"
+                            className="mb-3"
+                            label = "Bank Account "
+                            >
+                            <Form.Control
+                                as="select"
+                                type="text"
+                                value={bankId}
+                                onChange={(e) => setBankId(e.target.value)}
+                                required
+                                >
+                                <option> </option>
+                                {
+                                    bankDetails.map((value) => (
+                                        <option value={value.bankId}> {value.accountNumber} - {value.accountHolderName} </option>
+                                    ))
+                                }
+                            </Form.Control>
+                        </FloatingLabel>
 
                 </Form.Group>
                 <Button

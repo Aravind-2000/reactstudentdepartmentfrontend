@@ -20,7 +20,8 @@ const ListAllStudents = () => {
     const [enrolledCourses, setenrolledCourses] = useState([]);
     const [courseid, setcourseid] = useState([]);
     const [profilebyId, setprofilebyId] = useState([]);
-    var [record, setRecord] = useState(" ");
+    const [bankDetails, setBankDetails] = useState();
+    const [record, setRecord] = useState(" ");
     const [specific, setspecific] = useState(" ");
 
     const viewtooltip = (props) => (
@@ -59,7 +60,7 @@ const ListAllStudents = () => {
         StudentServiceApi.getStudProfById(students.studentId)
             .then((res) => {
                 setprofilebyId(res.data);
-                console.log(res.data);
+                setBankDetails(res.data.bankAccount);
             })
             .catch((error) => {
                 console.log(error);
@@ -121,6 +122,11 @@ const ListAllStudents = () => {
         setprofilebyId({ ...profilebyId, [id]: value });
     };
 
+    const editChange2 = (e) => {
+        const {value , id} = e.target;
+        setBankDetails({...bankDetails, [id]: value});
+    }
+
     const onEdit = () => {
         document.getElementById("edit").onclick = function () {
             document.getElementById("studentName").readOnly = false;
@@ -133,12 +139,17 @@ const ListAllStudents = () => {
             document.getElementById("pincode").readOnly = false;
             document.getElementById("addressLine1").readOnly = false;
             document.getElementById("addressLine2").readOnly = false;
-            document.getElementById("savebtn").readOnly = false;
+            document.getElementById("bankName").readOnly = false;
+            document.getElementById("bankBranch").readOnly = false;
+            document.getElementById("accountHolderName").readOnly = false;
+            document.getElementById("accountNumber").readOnly = false;
+            document.getElementById("ifscNumber").readOnly = false;
+            document.getElementById("accountType").disabled = false;
         };
     };
 
     const deletStudent = (studentId) => {
-        StudentsApi.deleteStudProfById(studentId)
+        StudentsApi.deleteStudentById(studentId)
             .then((respo) => {
                 console.log(respo.data);
                 getAllStudents();
@@ -153,12 +164,12 @@ const ListAllStudents = () => {
         course.map((i) =>(
             StudentsApi.addStudentToCourse(studid,i).then((respo) =>{
                 console.log(respo.data);
+                toast.success('Course Added', { position: toast.POSITION.TOP_RIGHT, autoClose: 1000 });
             })
                 .catch((error) =>{
                     console.log(error);
                 })
         ))
-        toast.success("Course(s) Added");
         courseid.length = 0;
     }
 
@@ -166,7 +177,7 @@ const ListAllStudents = () => {
         StudentServiceApi.removeStudentFromCourse(coursebyid, enrolledstudid).then((respo) =>
         {
             console.log(respo.data);
-            toast.error('Course Removed', { position: toast.POSITION.TOP_RIGHT, autoClose: false })
+            toast.error('Course Removed', { position: toast.POSITION.TOP_RIGHT, autoClose: 1000 })
         })
             .catch((error) =>{
                 console.log(error);
@@ -202,11 +213,18 @@ const ListAllStudents = () => {
                 .then((resp) => resp.json())
                 .then((resp) => {
                     console.log(resp);
-                    window.location = "/";
                     resolve();
                 });
         });
-    };
+
+        StudentsApi.updateBankAccountById(profilebyId.bankId, bankDetails).then((response) => {
+            console.log(response);
+            window.location = "/";
+        })
+            .catch((error) => {
+                console.log(error);
+            })
+    }
 
 
     return (
@@ -374,6 +392,7 @@ const ListAllStudents = () => {
                         onHide={handleUpdateClose}
                         aria-labelledby="contained-modal-title-vcenter"
                         centered
+                        size="lg"
                     >
                         <Modal.Header  style={{fontFamily:"Poppins"}} closeButton>
                             <Modal.Title>
@@ -386,7 +405,7 @@ const ListAllStudents = () => {
                                     style={{color:"blueviolet"}}
                                 >
                                     {" "}
-                                    <i className="uil uil-edit" onClick={() => onEdit()}></i>{" "}
+                                    <i className="uil uil-edit" onClick={() => onEdit()}/>
                                 </Button>{" "}
                             </Modal.Title>
                         </Modal.Header>
@@ -450,7 +469,6 @@ const ListAllStudents = () => {
               </FloatingLabel> </div> */}
                                         <div className="col-sm">
                                             <FloatingLabel
-                                                controlId="floatingInput"
                                                 className="mb-3"
                                                 label="Phone Number "
                                             >
@@ -466,7 +484,6 @@ const ListAllStudents = () => {
                                         </div>
                                         <div className="col-sm">
                                             <FloatingLabel
-                                                controlId="floatingInput"
                                                 className="mb-3"
                                                 label="Gender"
                                             >
@@ -487,7 +504,6 @@ const ListAllStudents = () => {
                                     </div>
 
                                     <FloatingLabel
-                                        controlId="floatingInput"
                                         className="mb-3"
                                         label="Address Line 1 "
                                     >
@@ -502,7 +518,6 @@ const ListAllStudents = () => {
                                     </FloatingLabel>
 
                                     <FloatingLabel
-                                        controlId="floatingInput"
                                         className="mb-3"
                                         label="Address Line 2 "
                                     >
@@ -519,7 +534,6 @@ const ListAllStudents = () => {
                                     <div className="row">
                                         <div className="col-sm">
                                             <FloatingLabel
-                                                controlId="floatingInput"
                                                 className="mb-3"
                                                 label="City"
                                             >
@@ -535,7 +549,6 @@ const ListAllStudents = () => {
                                         </div>
                                         <div className="col-sm">
                                             <FloatingLabel
-                                                controlId="floatingInput"
                                                 className="mb-3"
                                                 label="State"
                                             >
@@ -554,7 +567,6 @@ const ListAllStudents = () => {
                                     <div className="row">
                                         <div className="col-sm">
                                             <FloatingLabel
-                                                controlId="floatingInput"
                                                 className="mb-3"
                                                 label=" PinCode"
                                             >
@@ -570,7 +582,6 @@ const ListAllStudents = () => {
                                         </div>
                                         <div className="col-sm">
                                             <FloatingLabel
-                                                controlId="floatingInput"
                                                 className="mb-3"
                                                 label="Country"
                                             >
@@ -583,8 +594,116 @@ const ListAllStudents = () => {
                                                     readOnly
                                                 />
                                             </FloatingLabel>
-                                        </div>{" "}
+                                        </div>
                                     </div>
+                                    <p> Bank Details </p>
+                                    <div className="row">
+                                        <div className="col">
+                                    <FloatingLabel
+                                        className="mb-3"
+                                        label="Bank ID"
+                                        >
+                                        <Form.Control
+                                            type="text"
+                                            name="bankId"
+                                            id="bankId"
+                                            value={bankDetails?.bankId}
+                                            onChange={(e) => editChange2(e)}
+                                            readOnly
+                                        />
+                                    </FloatingLabel></div>
+                                        <div className="col">
+                                    <FloatingLabel
+                                        className="mb-3"
+                                        label="Bank Name"
+                                    >
+                                        <Form.Control
+                                            type="text"
+                                            name="bankName"
+                                            id="bankName"
+                                            value={bankDetails?.bankName}
+                                            onChange={(e) => editChange2(e)}
+                                            readOnly
+                                        />
+                                    </FloatingLabel></div>
+                                        <div className="col">
+                                    <FloatingLabel
+                                        className="mb-3"
+                                        label="Bank Branch"
+                                    >
+                                        <Form.Control
+                                            type="text"
+                                            name="bankBranch"
+                                            id="bankBranch"
+                                            value={bankDetails?.bankBranch}
+                                            onChange={(e) => editChange2(e)}
+                                            readOnly
+                                        />
+                                    </FloatingLabel></div> </div>
+
+                                    <div className="row">
+                                        <div className="col">
+                                    <FloatingLabel
+                                        className="mb-3"
+                                        label="Account Number"
+                                    >
+                                        <Form.Control
+                                            type="text"
+                                            name="accountNumber"
+                                            id="accountNumber"
+                                            value={bankDetails?.accountNumber}
+                                            onChange={(e) => editChange2(e)}
+                                            readOnly
+                                        />
+                                    </FloatingLabel></div>
+
+                                        <div className="col">
+                                    <FloatingLabel
+                                        className="mb-3"
+                                        label="IFSC Code"
+                                    >
+                                        <Form.Control
+                                            type="text"
+                                            name="ifscNumber"
+                                            id="ifscNumber"
+                                            value={bankDetails?.ifscNumber}
+                                            onChange={(e) => editChange2(e)}
+                                            readOnly
+                                        />
+                                    </FloatingLabel> </div> </div>
+
+                                    <FloatingLabel
+                                        className="mb-3"
+                                        label="Account Holder Name"
+                                    >
+                                        <Form.Control
+                                            type="text"
+                                            name="accountHolderName"
+                                            id="accountHolderName"
+                                            value={bankDetails?.accountHolderName}
+                                            onChange={(e) => editChange2(e)}
+                                            readOnly
+                                        />
+                                    </FloatingLabel>
+
+                                    <FloatingLabel
+                                        className="mb-3"
+                                        label="Account Type"
+                                    >
+                                        <Form.Control
+                                            as = "select"
+                                            type="text"
+                                            name="accountType"
+                                            id="accountType"
+                                            value={bankDetails?.accountType}
+                                            onChange={(e) => editChange2(e)}
+                                            disabled
+                                        >
+                                            <option> </option>
+                                            <option value="SAVINGS"> Savings </option>
+                                            <option value="CURRENT"> Current </option>
+                                        </Form.Control>
+                                    </FloatingLabel>
                                 </Form.Group>
                                 <Button
                                     variant="success"
