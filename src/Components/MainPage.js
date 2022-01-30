@@ -396,8 +396,7 @@ const ListAllStudents = () => {
                     >
                         <Modal.Header  style={{fontFamily:"Poppins"}} closeButton>
                             <Modal.Title>
-                                {" "}
-                                Student Profile{" "}
+                                Student Profile
                                 <Button
                                     id="edit"
                                     className="btn btn-light"
@@ -412,6 +411,8 @@ const ListAllStudents = () => {
                         <Modal.Body style={{fontFamily:"Poppins"}}>
                             <Form>
                                 <Form.Group>
+                                    <div className="row">
+                                        <div className="col">
                                     <FloatingLabel className="mb-3" label="Student ID">
                                         <Form.Control
                                             type="text"
@@ -420,9 +421,10 @@ const ListAllStudents = () => {
                                             id="studentId"
                                             readOnly
                                             required
-                                        />{" "}
-                                    </FloatingLabel>
+                                        />
+                                    </FloatingLabel></div>
 
+                                        <div className="col">
                                     <FloatingLabel className="mb-3" label="Student Name">
                                         <Form.Control
                                             type="text"
@@ -433,8 +435,9 @@ const ListAllStudents = () => {
                                             readOnly
                                             required
                                         />{" "}
-                                    </FloatingLabel>
+                                    </FloatingLabel></div>
 
+                                        <div className="col">
                                     <FloatingLabel className="mb-3" label="Department ID">
                                         <Form.Control
                                             as="select"
@@ -453,7 +456,7 @@ const ListAllStudents = () => {
                                             </option>
                                             <option value="106"> 106 - Bio - Technology </option>
                                         </Form.Control>
-                                    </FloatingLabel>
+                                    </FloatingLabel></div></div>
 
                                     <div className="row">
                                         {/* <div className="col-sm" >
@@ -499,10 +502,11 @@ const ListAllStudents = () => {
                                                     <option value="MALE"> Male </option>
                                                     <option value="FEMALE"> Female </option>
                                                 </Form.Control>
-                                            </FloatingLabel>{" "}
-                                        </div>{" "}
+                                            </FloatingLabel>
+                                        </div>
                                     </div>
-
+                                    <div className="row">
+                                    <div className="col">
                                     <FloatingLabel
                                         className="mb-3"
                                         label="Address Line 1 "
@@ -515,8 +519,9 @@ const ListAllStudents = () => {
                                             onChange={(e) => editChange1(e)}
                                             readOnly
                                         />
-                                    </FloatingLabel>
+                                    </FloatingLabel></div>
 
+                                        <div className="col">
                                     <FloatingLabel
                                         className="mb-3"
                                         label="Address Line 2 "
@@ -529,7 +534,7 @@ const ListAllStudents = () => {
                                             onChange={(e) => editChange1(e)}
                                             readOnly
                                         />
-                                    </FloatingLabel>
+                                    </FloatingLabel></div> </div>
 
                                     <div className="row">
                                         <div className="col-sm">

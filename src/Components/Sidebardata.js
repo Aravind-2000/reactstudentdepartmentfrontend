@@ -8,10 +8,15 @@ export const Sidebardata = [
         title: "Departments",
         path: "/departments",
         cName: "nav-text",
+    },
+    {
+      title: "Courses ",
+      path: "/enrollcourses",
+      cName: "nav-text",
+    },
+    {
+        title: "Bank Details",
+        path: "/bankaccount",
+        cName: "nav-text"
     }
-    // {
-    //   title: "Enrolled Students",
-    //   path: "/enrollcourses",
-    //   cName: "nav-text",
-    // }
 ];

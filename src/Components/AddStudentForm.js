@@ -3,6 +3,11 @@ import { Form, Button, FloatingLabel } from "react-bootstrap";
 import StudentsApi from "../Service/StudentServiceApi";
 import {toast, ToastContainer} from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
+import Radio from '@mui/material/Radio';
+import RadioGroup from '@mui/material/RadioGroup';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import FormControl from '@mui/material/FormControl';
+import FormLabel from '@mui/material/FormLabel';
 
 const AddStudentForm = () => {
     const [studentId, setStudentId] = useState();
@@ -156,23 +161,18 @@ const AddStudentForm = () => {
                             </FloatingLabel> </div>
 
                     <div className="col-sm" >
-                    <FloatingLabel
-                        controlId="floatingInput"
-                        className="mb-3"
-                        label="Gender"
-                    >
-                        <Form.Control
-                            as={"select"}
-                            type="text"
-                            name="gender"
-                            value={gender}
-                            onChange={(e) => setgender(e.target.value)}
-                            required
-                        >
-                            <option> </option>
-                            <option value="MALE" > Male </option>
-                            <option value="FEMALE" > Female </option> </Form.Control>
-                    </FloatingLabel> </div> </div>
+                        <div className="row">
+                            <FormControl>
+                            <FormLabel style={{fontFamily: "Poppins"}}>Gender</FormLabel>
+                            <RadioGroup
+                                row
+                                value={gender}
+                                onChange={(e) => setgender(e.target.value) }
+                            >
+                                <FormControlLabel value="MALE" control={<Radio />} label="Male" />
+                                <FormControlLabel value="FEMALE" control={<Radio />} label="Female" />
+                            </RadioGroup>
+                        </FormControl> </div> </div> </div>
 
                     <FloatingLabel
                         controlId="floatingInput"

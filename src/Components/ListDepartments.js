@@ -74,7 +74,7 @@ const ListDepartments = () => {
                                         style={{marginLeft:20, color:"blueviolet"}}
                                     >
                                         <i className="uil uil-eye" onClick={() => viewOpen(departments)}
-                                           style={{color:"blueviolet"}}></i>
+    style={{color: "blueviolet"}}/>
                                     </button>
                                 </td>
                             </tr>
