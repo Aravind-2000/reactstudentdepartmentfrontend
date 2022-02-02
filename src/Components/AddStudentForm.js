@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import React, {useState} from "react";
 import { Form, Button, FloatingLabel } from "react-bootstrap";
 import StudentsApi from "../Service/StudentServiceApi";
 import {toast, ToastContainer} from "react-toastify";
@@ -10,7 +10,7 @@ import FormControl from '@mui/material/FormControl';
 import FormLabel from '@mui/material/FormLabel';
 
 const AddStudentForm = () => {
-    const [studentId, setStudentId] = useState();
+    const [studentId, setStudentId] = useState("");
     const [studentName, setStudentName] = useState(" ");
     const [departmentId, setDepartmentId] = useState();
     const [id, setid] = useState();
@@ -20,24 +20,20 @@ const AddStudentForm = () => {
     const [addressLine2, setaddressLine2] = useState(" ")
     const [city, setcity] = useState(" ");
     const [state, setstate] = useState(" ");
-    const [pincode, setpincode] = useState();
+    const [pincode, setpincode] = useState("");
     const [country, setcountry] = useState(" ");
     const [bankId, setBankId] = useState();
-    const [bankDetails, setBankDetails] = useState([]);
-
-    useEffect(() => {
-        StudentsApi.getAllBankAccounts().then((res) => {
-            setBankDetails(res.data);
-            console.log((res.data));
-        })
-            .catch((error) => {
-                console.log(error);
-            })
-    }, []);
+    const [bankName, setBankName] = useState("");
+    const [bankBranch, setBankBranch] = useState("");
+    const [accountHolderName, setAccountHolderName] = useState("");
+    const [accountNumber, setAccountNumber] = useState("");
+    const [ifscNumber, setIfscNumber] = useState("");
+    const [accountType, setAccountType] = useState("");
 
     const saveStudent = () => {
         const students = { studentId, studentName, departmentId };
-        const profile = {id, phoneNumber, gender, addressLine1, addressLine2, city, state, pincode, country, bankId};
+        const profile = {id, phoneNumber, gender, addressLine1, addressLine2, city, state, pincode, country};
+        const bankDetails = {bankId, bankName, bankBranch, accountHolderName, accountNumber, ifscNumber, accountType};
 
         StudentsApi.addStudents(students)
             .then((response) => {
@@ -46,6 +42,14 @@ const AddStudentForm = () => {
             .catch((error) => {
                 console.log(error);
             });
+
+        StudentsApi.addBankAccount(bankDetails)
+            .then((respo) => {
+                console.log(respo.data);
+            })
+            .catch((error) => {
+                console.log(error);
+            })
 
         StudentsApi.addStudProf(profile)
             .then((res) => {
@@ -60,11 +64,12 @@ const AddStudentForm = () => {
     const idChange = (e) => {
         setStudentId(e.target.value);
         setid(e.target.value);
+        setBankId(e.target.value);
     }
 
     return (
         <div>
-            <Form className=" container">
+            <Form className=" container" onSubmit={() => saveStudent()}>
                 <Form.Group>
                     <div className="row">
                         <div className="col-sm">
@@ -76,33 +81,13 @@ const AddStudentForm = () => {
                                 <Form.Control
                                     type="number"
                                     name="studentId"
-                                    value={studentId}
+                                    placeholder="studentId"
                                     onChange={(e) => idChange(e)}
                                     required
                                 />
                             </FloatingLabel> </div>
 
-
-                        {/* <div className="col-sm">
-          <FloatingLabel
-            controlId="floatingInput"
-            className="mb-3"
-            label=" Student Id "
-          >
-            <Form.Control
-              type="text"
-              name="id"
-              placeholder=""
-              id="id"
-              value={studentId}
-              onChange={(e) => idChange(e)}
-              onSet
-              required
-            />
-          </FloatingLabel> </div>  */}
-                    </div>
-
-
+                    <div className="col">
                     <FloatingLabel
                         controlId="floatingInput"
                         className="mb-3"
@@ -111,15 +96,15 @@ const AddStudentForm = () => {
                         <Form.Control
                             type="text"
                             name="studentName"
-                            value={studentName}
+                            placeholder={studentName}
                             onChange={(e) => setStudentName(e.target.value)}
                             required
                         />
-                    </FloatingLabel>
+                    </FloatingLabel></div>
 
 
 
-                        <div className="col-sm" >
+                        <div className="col" >
                             <FloatingLabel
                                 controlId="floatingInput"
                                 className="mb-3"
@@ -129,20 +114,20 @@ const AddStudentForm = () => {
                                     as={"select"}
                                     type="text"
                                     name="departmentId"
-                                    value={departmentId}
+                                    placeholder="departmentId"
                                     onChange={(e) => setDepartmentId(e.target.value)}
                                     required
                                 >
                                     <option> </option>
                                     <option value="104">
-                                        104 - Computer Science and Engineering
+                                        104 - Computer Science
                                     </option>
                                     <option value="105">
-                                        105 - Electronics and Communication Engineering
+                                        105 - Electronics and Communication
                                     </option>
                                     <option value="106"> 106 - Bio - Technology </option>
                                 </Form.Control>
-                            </FloatingLabel>  </div>
+                            </FloatingLabel>  </div> </div>
 
                     <div className="row">
                         <div className="col-sm" >
@@ -154,7 +139,7 @@ const AddStudentForm = () => {
                                 <Form.Control
                                     type="text"
                                     name="phoneNumber"
-                                    value={phoneNumber}
+                                    placeholder={phoneNumber}
                                     onChange={(e) => setphoneNumber(e.target.value)}
                                     required
                                 />
@@ -174,6 +159,8 @@ const AddStudentForm = () => {
                             </RadioGroup>
                         </FormControl> </div> </div> </div>
 
+                    <div className="row">
+                        <div className="col">
                     <FloatingLabel
                         controlId="floatingInput"
                         className="mb-3"
@@ -182,12 +169,13 @@ const AddStudentForm = () => {
                         <Form.Control
                             type="text"
                             name="addressLine1"
-                            value={addressLine1}
+                            placeholder={addressLine1}
                             onChange={(e) => setaddressLine1(e.target.value)}
                             required
                         />
-                    </FloatingLabel>
+                    </FloatingLabel> </div>
 
+                        <div className="col">
                     <FloatingLabel
                         controlId="floatingInput"
                         className="mb-3"
@@ -196,11 +184,11 @@ const AddStudentForm = () => {
                         <Form.Control
                             type="text"
                             name="addressLine2"
-                            value={addressLine2}
+                            placeholder={addressLine2}
                             onChange={(e) => setaddressLine2(e.target.value)}
                             required
                         />
-                    </FloatingLabel>
+                    </FloatingLabel></div> </div>
 
 
                     <div className="row">
@@ -213,39 +201,31 @@ const AddStudentForm = () => {
                                 <Form.Control
                                     type="text"
                                     name="city"
-                                    value={city}
+                                    placeholder={city}
                                     onChange={(e) => setcity(e.target.value)}
                                     required
                                 />
                             </FloatingLabel></div>
 
                         <div className="col-sm">
-                            <FloatingLabel
-                                controlId="floatingInput"
-                                className="mb-3"
-                                label="State"
-                            >
-                                <Form.Control
-                                    type="text"
-                                    name="state"
-                                    value={state}
-                                    onChange={(e) => setstate(e.target.value)}
-                                    required
-                                />
-                            </FloatingLabel> </div> </div>
-
-
+                        <FloatingLabel
+                            controlId="floatingInput"
+                            label="State"
+                            className="mb-3"
+                        >
+                            <Form.Control type="text" placeholder="State" id="state"   onChange={(e) => setstate(e.target.value) } required />
+                        </FloatingLabel> </div> </div>
                     <div className="row">
                         <div className="col-sm">
                             <FloatingLabel
                                 controlId="floatingInput"
                                 className="mb-3"
-                                label=" PinCode"
+                                label="PinCode"
                             >
                                 <Form.Control
                                     type="text"
                                     name="pincode"
-                                    value={pincode}
+                                    placeholder={pincode}
                                     onChange={(e) => setpincode(e.target.value)}
                                     required
                                 />
@@ -260,37 +240,113 @@ const AddStudentForm = () => {
                                 <Form.Control
                                     type="text"
                                     name="country"
-                                    value={country}
+                                    placeholder={country}
                                     onChange={(e) => setcountry(e.target.value)}
                                     required
                                 />
                             </FloatingLabel></div> </div>
-                        <FloatingLabel
-                            controlId="floatingInput"
-                            className="mb-3"
-                            label = "Bank Account "
+
+                    <p> Bank Details </p>
+                    <div className="row">
+                        <div className="col">
+                            <FloatingLabel
+                                controlId="floatingInput"
+                                className="mb-3"
+                                label="Bank Name"
                             >
-                            <Form.Control
-                                as="select"
-                                type="text"
-                                value={bankId}
-                                onChange={(e) => setBankId(e.target.value)}
-                                required
-                                >
-                                <option> </option>
-                                {
-                                    bankDetails.map((value) => (
-                                        <option value={value.bankId}> {value.accountNumber} - {value.accountHolderName} </option>
-                                    ))
-                                }
-                            </Form.Control>
-                        </FloatingLabel>
+                                <Form.Control
+                                    type="text"
+                                    name="bankName"
+                                    id="bankName"
+                                    placeholder={bankName}
+                                    onChange={(e) => setBankName(e.target.value)}
+                                    required
+                                />
+                            </FloatingLabel></div>
+                        <div className="col">
+                            <FloatingLabel
+                                controlId="floatingInput"
+                                className="mb-3"
+                                label="Bank Branch"
+                            >
+                                <Form.Control
+                                    type="text"
+                                    name="bankBranch"
+                                    id="bankBranch"
+                                    placeholder={bankBranch}
+                                    onChange={(e) => setBankBranch(e.target.value)}
+                                    required
+                                />
+                            </FloatingLabel></div> </div>
+
+                    <div className="row">
+                        <div className="col">
+                            <FloatingLabel
+                                controlId="floatingInput"
+                                className="mb-3"
+                                label="Account Number"
+                            >
+                                <Form.Control
+                                    type="text"
+                                    name="accountNumber"
+                                    id="accountNumber"
+                                    placeholder={accountNumber}
+                                    onChange={(e) => setAccountNumber(e.target.value)}
+                                    required
+
+                                />
+                            </FloatingLabel></div>
+
+                        <div className="col">
+                            <FloatingLabel
+                                controlId="floatingInput"
+                                className="mb-3"
+                                label="IFSC Code"
+                            >
+                                <Form.Control
+                                    type="text"
+                                    name="ifscNumber"
+                                    id="ifscNumber"
+                                    placeholder={ifscNumber}
+                                    onChange={(e) => setIfscNumber(e.target.value)}
+                                    required
+
+                                />
+                            </FloatingLabel> </div> </div>
+
+                    <FloatingLabel
+                        controlId="floatingInput"
+                        className="mb-3"
+                        label="Account Holder Name"
+                    >
+                        <Form.Control
+                            type="text"
+                            name="accountHolderName"
+                            id={accountHolderName}
+                            placeholder={accountHolderName}
+                            onChange={(e) => setAccountHolderName(e.target.value)}
+                            required
+                        />
+                    </FloatingLabel>
+
+                    <FormControl>
+                        <FormLabel style={{fontFamily: "Poppins"}}>Account Type</FormLabel>
+                        <RadioGroup
+                            row
+                            value={accountType}
+                            onChange={(e) => setAccountType(e.target.value) }
+                            required
+                        >
+                            <FormControlLabel value="SAVINGS" control={<Radio />} label="Savings" />
+                            <FormControlLabel value="CURRENT" control={<Radio />} label="Current" />
+                        </RadioGroup>
+                    </FormControl>
+
 
                 </Form.Group>
                 <Button
                     variant="success"
                     type="submit"
-                    onClick={(e) => saveStudent(e)}
                     data-toggle="modal"
                     block
                 >

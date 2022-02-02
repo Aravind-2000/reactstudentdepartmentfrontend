@@ -10,6 +10,7 @@ const ADD_STUD_PROF = "http://localhost:8080/studentprofile/add";
 const GET_PROF_BY_ID = "http://localhost:8080/studentprofile/get/";
 const DELETE_STUD_PROF ="http://localhost:8080/studentprofile/delete/";
 const GET_COURSES = "http://localhost:8080/courses/getall";
+const ADD_COURSE = "http://localhost:8080/courses/add";
 const GET_COURSE_BY_ID ="http://localhost:8080/courses/get/";
 const REMOVE_STUDENT_FROM_COURSE = "http://localhost:8080/students/";
 const ADD_STUD_TO_COURSE = "http://localhost:8080/students/";
@@ -49,6 +50,9 @@ class StudentsApi {
     }
     getCourses(){
         return axios.get(GET_COURSES);
+    }
+    addCourse(course){
+        return axios.post(ADD_COURSE, course);
     }
     getCourseById(courseId){
         return axios.get(GET_COURSE_BY_ID + courseId);

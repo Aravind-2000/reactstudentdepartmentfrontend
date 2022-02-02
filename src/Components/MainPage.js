@@ -217,7 +217,7 @@ const ListAllStudents = () => {
                 });
         });
 
-        StudentsApi.updateBankAccountById(profilebyId.bankId, bankDetails).then((response) => {
+        StudentsApi.updateBankAccountById(profilebyId.bankAccount?.bankId, bankDetails).then((response) => {
             console.log(response);
             window.location = "/";
         })
@@ -252,7 +252,7 @@ const ListAllStudents = () => {
                         <table className="table table-borderless">
                             <thead className="tablehead">
                             <tr>
-                                <td className="col"> <h4 style={{fontFamily: 'Poppins'}}> Student ID </h4> </td>
+                                <td className="col"> <h4 style={{fontFamily: 'Poppins'}}> Student ID</h4> </td>
                                 <td className="col">  <h4 style={{fontFamily: 'Poppins'}}> Student Name</h4> </td>
                                 <td className="col"> <h4 style={{fontFamily: 'Poppins'}}>  Department ID </h4> </td>
                                 <td className="col"> <h4 style={{fontFamily: 'Poppins', marginLeft:50}}> Actions </h4> </td>
@@ -320,6 +320,7 @@ const ListAllStudents = () => {
                         onHide={handleAddClose}
                         aria-labelledby="contained-modal-title-vcenter"
                         centered
+                        size="lg"
                     >
                         <Modal.Header style={{fontFamily:"Poppins"}} closeButton>
                             <Modal.Title > Add Students Details </Modal.Title>
@@ -412,18 +413,17 @@ const ListAllStudents = () => {
                             <Form>
                                 <Form.Group>
                                     <div className="row">
-                                        <div className="col">
-                                    <FloatingLabel className="mb-3" label="Student ID">
-                                        <Form.Control
-                                            type="text"
-                                            name="studentId"
-                                            value={record.studentId}
-                                            id="studentId"
-                                            readOnly
-                                            required
-                                        />
-                                    </FloatingLabel></div>
-
+                                    {/*    <div className="col">*/}
+                                    {/*<FloatingLabel className="mb-3" label="Student ID">*/}
+                                    {/*    <Form.Control*/}
+                                    {/*        type="text"*/}
+                                    {/*        name="studentId"*/}
+                                    {/*        value={record.studentId}*/}
+                                    {/*        id="studentId"*/}
+                                    {/*        readOnly*/}
+                                    {/*        required*/}
+                                    {/*    />*/}
+                                    {/*</FloatingLabel></div>*/}
                                         <div className="col">
                                     <FloatingLabel className="mb-3" label="Student Name">
                                         <Form.Control
@@ -459,17 +459,6 @@ const ListAllStudents = () => {
                                     </FloatingLabel></div></div>
 
                                     <div className="row">
-                                        {/* <div className="col-sm" >
-              <FloatingLabel className="mb-3">
-                <Form.Control
-                  type="text"
-                  name="id"
-                  value={profilebyId.id}
-                  id="id"
-                  readOnly
-                  required
-                />
-              </FloatingLabel> </div> */}
                                         <div className="col-sm">
                                             <FloatingLabel
                                                 className="mb-3"
@@ -603,20 +592,6 @@ const ListAllStudents = () => {
                                     </div>
                                     <p> Bank Details </p>
                                     <div className="row">
-                                        <div className="col">
-                                    <FloatingLabel
-                                        className="mb-3"
-                                        label="Bank ID"
-                                        >
-                                        <Form.Control
-                                            type="text"
-                                            name="bankId"
-                                            id="bankId"
-                                            value={bankDetails?.bankId}
-                                            onChange={(e) => editChange2(e)}
-                                            readOnly
-                                        />
-                                    </FloatingLabel></div>
                                         <div className="col">
                                     <FloatingLabel
                                         className="mb-3"
