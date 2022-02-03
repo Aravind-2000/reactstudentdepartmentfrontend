@@ -360,7 +360,7 @@ const ListAllStudents = () => {
                                             />
                                         ))
                                     }
-                                    <i className="uil uil-plus" style={{marginTop:20, cursor:"pointer"}}  onClick={() => addstudent(specific.studentId, courseid)} >  </i>
+                                    <button className="btn" onClick={() => addstudent(specific.studentId, courseid)}> <i className="uil uil-plus" style={{marginTop:20, cursor:"pointer"}}   >  </i> </button>
                                     <ToastContainer/>
                                 </Form.Group>
                             </Form>

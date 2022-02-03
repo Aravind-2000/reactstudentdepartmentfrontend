@@ -1,17 +1,26 @@
 import React, { useState, useEffect } from "react";
 import StudentServiceApi from "../Service/StudentServiceApi";
-import { Modal} from "react-bootstrap";
+import { Modal, Form} from "react-bootstrap";
 import { Link } from "react-router-dom";
 import "./MainPage.css";
 
 const ListDepartments = () => {
     const [departments, setDepartments] = useState([]);
+    const [students, setStudents] = useState([]);
     const [dept, setdept] = useState([]);
-
+    const [transferarray, setTransferarray] = useState(" ");
+    const [transferId, setTransferId] = useState([]);
 
 
     useEffect(() => {
         getAllDepts();
+        StudentServiceApi.getStudents()
+            .then((resp) => {
+                setStudents(resp.data);
+            })
+            .catch((error) => {
+                console.log(error);
+            })
     }, []);
 
     const getAllDepts = () => {
@@ -25,12 +34,26 @@ const ListDepartments = () => {
             });
     };
 
+    const [transfer, setTransfer] = useState(false);
+    const transferOpen = (departments) =>{
+       setTransferarray(departments);
+        setTransfer(true);
+    }
+    const transferClose = () => {
+        transferId.length = 0;
+        setTransfer(false);
+    }
+
+    const transferStudents = (idArray) => {
+
+        transferClose();
+    }
+
     const [viewStuds, setviewStuds] = useState(false);
     const viewOpen = (departments) => {
         StudentServiceApi.getDeptById(departments.deptId)
             .then((res) => {
                 setdept(res.data.students);
-                console.log(res.data);
             })
             .catch((error) => {
                 console.log(error);
@@ -113,8 +136,48 @@ const ListDepartments = () => {
                         </Modal.Body>
                         <Modal.Footer/>
                     </Modal>
-                </div>{" "}
-            </div>{" "}
+
+                    <Modal
+                    show={transfer}
+                    onHide={transferClose}
+                    size="lg"
+                    aria-labelledby="contained-modal-title-vcenter"
+                    centered
+                    >
+                        <Modal.Header closeButton>
+                            <Modal.Title> Transfer Students </Modal.Title> </Modal.Header>
+                            <Modal.Body>
+                                <Form className="container">
+                                    <Form.Group>
+                                        {
+                                            students.map((value) => (
+                                                <Form.Check
+                                                    type="checkbox"
+                                                    label={value.departmentId === transferarray.deptId ? null : value.studentName }
+                                                    value={value.studentId}
+                                                    onChange={(e) => {
+                                                        if(e.target.checked){
+                                                            transferId.push(e.target.value)
+                                                            setTransferId(transferId);
+                                                        }
+                                                    } }
+                                                />
+                                            ))
+                                        }
+                                    </Form.Group>
+                                    <button
+                                        className="btn"
+                                        onClick={() => transferStudents(transferId)}
+                                        >
+                                        Add
+                                    </button>
+
+                                </Form>
+                            </Modal.Body>
+                    </Modal>
+
+                </div>
+            </div>
         </div>
     );
 };
